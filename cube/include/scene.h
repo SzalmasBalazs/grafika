@@ -3,13 +3,14 @@
 
 #include "camera.h"
 #include "texture.h"
+#include "modelobject.h"
 
 #include <obj/model.h>
 
 typedef struct Scene
 {
     Model cube;
-	float model_scale;
+	Ship ship;
     Material material;
     GLuint texture_id;
 	GLuint texture_id2;

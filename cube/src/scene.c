@@ -1,13 +1,17 @@
 #include "scene.h"
+#include "modelobject.h"
 
 #include <GL/glut.h>
 
 #include <obj/load.h>
 #include <obj/draw.h>
+#include <obj/model.h>
 
 void init_scene(Scene* scene)
 {
-    load_model(&(scene->cube), "obj/Star Fighter Low-Poly.obj");
+	
+    load_model(&(scene->ship.player_ship), "obj/Star Fighter Low-Poly.obj");
+	init_ship(&(scene->ship));
 	scene->texture_id = load_texture("obj/Star Fighter_color.jpg"); 
 
     glBindTexture(GL_TEXTURE_2D, scene->texture_id);
@@ -25,7 +29,6 @@ void init_scene(Scene* scene)
     scene->material.specular.blue = 1.0;
 
     scene->material.shininess = 30.0;
-	scene->model_scale = 0.050;
 }
 
 void set_lighting()
@@ -73,11 +76,14 @@ void draw_scene(const Scene* scene){
     set_material(&(scene->material));
     set_lighting();
     draw_origin();
-  glPushMatrix(); 
+	draw_ship(&(scene->ship));
+	
+  /*glPushMatrix(); 
     glRotatef(90,1,0,0);
 	glScalef(scene->model_scale,scene->model_scale,scene->model_scale);
     draw_model(&(scene->cube));
- glPopMatrix();
+ glPopMatrix();*/
+
 }
 
 void draw_origin()
