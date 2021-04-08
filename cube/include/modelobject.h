@@ -2,15 +2,15 @@
 #define MODELOBJECT_H
 
 #include <obj/model.h>
+#include "utils.h"
 
 typedef struct Ship
 {
 	Model player_ship;
 	float model_scale;
-	float x;
-	float y;
-	float z;
-	float speed;
+	vec3 position;
+    vec3 speed;
+	vec3 rotation;
 }Ship;
 
 /*draws the player ship.*/
@@ -18,5 +18,10 @@ void draw_ship(Ship* ship);
 
 /*setup operations*/
 void init_ship(Ship* ship);
+
+
+
+
+void update_ship(Ship* ship,double time);
 
 #endif /*MODELOBJECT_H */

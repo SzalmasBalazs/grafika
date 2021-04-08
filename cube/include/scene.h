@@ -45,4 +45,10 @@ void draw_scene(const Scene* scene);
  */
 void draw_origin();
 
+/*function responsible for moving the ship on its y axis*/
+void set_ship_side_speed(Ship* ship,double speed);
+
+/*function responsible for moving the ship on its z axis*/
+void set_ship_horizontal_speed(Ship* ship,double speed);
+
 #endif /* SCENE_H */

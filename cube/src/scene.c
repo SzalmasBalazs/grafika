@@ -1,5 +1,6 @@
 #include "scene.h"
 #include "modelobject.h"
+#include "utils.h"
 
 #include <GL/glut.h>
 
@@ -103,4 +104,13 @@ void draw_origin()
     glVertex3f(0, 0, 1);
 
     glEnd();
+}
+
+void set_ship_side_speed(Ship* ship,double speed){
+	ship->speed.y = speed;
+}
+
+void set_ship_horizontal_speed(Ship* ship,double speed){
+	
+	ship->speed.z = speed;
 }
