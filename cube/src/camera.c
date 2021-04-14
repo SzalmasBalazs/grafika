@@ -1,14 +1,14 @@
 #include "camera.h"
-
+#include "modelobject.h"
 #include <GL/glut.h>
 
 #include <math.h>
 
 void init_camera(Camera* camera)
 {
-    camera->position.x = 0.0;
-    camera->position.y = 0.0;
-    camera->position.z = 1.0;
+    camera->position.x = (ship.position.x - 1.3);
+    camera->position.y = (ship.position.y);
+    camera->position.z = (ship.position.z + 0.4);
     camera->rotation.x = 0.0;
     camera->rotation.y = 0.0;
     camera->rotation.z = 0.0;
@@ -31,6 +31,7 @@ void update_camera(Camera* camera, double time)
     camera->position.y += sin(angle) * camera->speed.y * time;
     camera->position.x += cos(side_angle) * camera->speed.x * time;
     camera->position.y += sin(side_angle) * camera->speed.x * time;
+	
 }
 
 void set_view(const Camera* camera)

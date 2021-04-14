@@ -1,17 +1,23 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+
 #include "utils.h"
+#include "modelobject.h"
 
 /**
  * Camera, as a moving point with direction
  */
+
 typedef struct Camera
 {
     vec3 position;
     vec3 rotation;
     vec3 speed;
+
 } Camera;
+
+Ship ship;
 
 /**
  * Is the texture preview visible?
