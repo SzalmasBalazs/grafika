@@ -3,6 +3,7 @@
 
 #include "camera.h"
 #include "scene.h"
+#include "modelobject.h"
 
 
 #include <GL/glut.h>
@@ -16,7 +17,6 @@ Scene scene;
  * Camera
  */
 Camera camera;
-
 
 /**
  * Call when need to display the graphical content.
@@ -46,6 +46,7 @@ void keyboard(unsigned char key, int x, int y);
 /**
  * Call after keyboard release event.
  */
+
 void keyboard_up(unsigned char key, int x, int y);
 
 /**
