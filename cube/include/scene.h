@@ -1,9 +1,10 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "camera.h"
+
 #include "texture.h"
 #include "modelobject.h"
+#include "camera.h"
 
 #include <obj/model.h>
 
@@ -11,11 +12,13 @@ typedef struct Scene
 {
     Model cube;
 	Ship ship;
+	Model skybox;
     Material material;
     GLuint texture_id;
 	GLuint texture_id2;
 	GLuint texture_id3;
 	GLuint texture_id4;
+	GLuint sky_tex;
 } Scene;
 
 /**
@@ -50,5 +53,7 @@ void set_ship_side_speed(Ship* ship,double speed);
 
 /*function responsible for moving the ship on its z axis*/
 void set_ship_horizontal_speed(Ship* ship,double speed);
+
+void draw_skybox(Scene* scene);
 
 #endif /* SCENE_H */

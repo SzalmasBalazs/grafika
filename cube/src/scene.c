@@ -2,6 +2,7 @@
 #include "modelobject.h"
 #include "utils.h"
 
+
 #include <GL/glut.h>
 
 #include <obj/load.h>
@@ -12,24 +13,27 @@ void init_scene(Scene* scene)
 {
 	
     load_model(&(scene->ship.player_ship), "obj/Star Fighter Low-Poly.obj");
+	load_model(&(scene->skybox), "obj/compatiblebox.obj");
 	init_ship(&(scene->ship));
-	scene->texture_id = load_texture("obj/Star Fighter_color.jpg"); 
+	scene->texture_id = load_texture("obj/Star Fighter_color.jpg");
+	scene->sky_tex = load_texture("obj/bkg/red/bkg1_bottom4.png");
+	
 
     glBindTexture(GL_TEXTURE_2D, scene->texture_id);
 
     scene->material.ambient.red = 1.0;
     scene->material.ambient.green = 1.0;
-    scene->material.ambient.blue = 0.0;
+    scene->material.ambient.blue = 1.0;
 
-    scene->material.diffuse.red = 1.0;
+    scene->material.diffuse.red = 0.0;
     scene->material.diffuse.green = 0.0;
-    scene->material.diffuse.blue = 1.0;
+    scene->material.diffuse.blue = 0.0;
 
-    scene->material.specular.red = 1.0;
-    scene->material.specular.green = 2.0;
-    scene->material.specular.blue = 1.0;
+    scene->material.specular.red = 0.0;
+    scene->material.specular.green = 0.0;
+    scene->material.specular.blue = 0.0;
 
-    scene->material.shininess = 30.0;
+    scene->material.shininess = 1.0;
 }
 
 void set_lighting()
@@ -77,8 +81,13 @@ void draw_scene(const Scene* scene){
     set_material(&(scene->material));
     set_lighting();
     draw_origin();
+	draw_skybox(scene);
+ glPushMatrix(); 
+    glBindTexture(GL_TEXTURE_2D,scene->texture_id);
+    glRotatef(180,0,0,1);
 	draw_ship(&(scene->ship));
-	
+ glPopMatrix();
+
   /*glPushMatrix(); 
     glRotatef(90,1,0,0);
 	glScalef(scene->model_scale,scene->model_scale,scene->model_scale);
@@ -105,12 +114,17 @@ void draw_origin()
 
     glEnd();
 }
-
-void set_ship_side_speed(Ship* ship,double speed){
-	ship->speed.y = speed;
-}
-
-void set_ship_horizontal_speed(Ship* ship,double speed){
+void draw_skybox(Scene* scene){
 	
-	ship->speed.z = speed;
+	   glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, scene->sky_tex);
+        //glTranslatef(1.0, 0.0, 0.0);
+        //glTranslatef(0.0, 1.0, 0.0);
+        glScalef(80, 80, 80);
+	    draw_model(&(scene->skybox));
+    glPopMatrix();
+	
+	
+	
+	
 }
