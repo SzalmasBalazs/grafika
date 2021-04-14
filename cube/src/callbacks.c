@@ -1,9 +1,8 @@
 #include "callbacks.h"
 #include "scene.h"
 
-
-#define VIEWPORT_RATIO (4.0 / 3.0)
-#define VIEWPORT_ASPECT 50.0
+#define VIEWPORT_RATIO (16.0 / 9.0)
+#define VIEWPORT_ASPECT 60.0
 
 struct {
     int x;
@@ -65,21 +64,21 @@ void motion(int x, int y)
     mouse_position.y = y;
     glutPostRedisplay();
 }
-
 void keyboard(unsigned char key, int x, int y)
 {
     switch (key) {
     case 'w':
-   set_camera_speed(&camera,1);
+     scene.ship.speed.x = 20;
         break;
     case 's':
-    set_camera_speed(&camera,-1);
+     scene.ship.speed.x = -20;
         break;
     case 'a':
-    set_camera_side_speed(&camera,1);
+    scene.ship.speed.z = 20;
+	//scene.ship.rotation.z = 3;
         break;
     case 'd':
-    set_camera_side_speed(&camera,-1);  
+     scene.ship.speed.z = -20;
         break;
     case 't':
         if (is_preview_visible) {
@@ -89,8 +88,21 @@ void keyboard(unsigned char key, int x, int y)
             is_preview_visible = TRUE;
         }
         break;
+	case 'i':
+	 set_camera_speed(&camera,1);
+	    break;
+	case 'k':
+	  set_camera_speed(&camera,-1);
+	    break;
+	case 'j':
+	  set_camera_side_speed(&camera,1);
+        break;
+	case 'l':
+	set_camera_side_speed(&camera,-1);
+	 break;
     }
     glutPostRedisplay();
+	
 }
 
 void keyboard_up(unsigned char key, int x, int y)
@@ -98,12 +110,20 @@ void keyboard_up(unsigned char key, int x, int y)
     switch (key) {
     case 'w':
     case 's':
-      set_camera_speed(&camera,0.0);
+       scene.ship.speed.x = 0.0;
         break;
     case 'a':
     case 'd':
-         set_camera_side_speed(&camera,0.0);
+          scene.ship.speed.z = 0.0;
         break;
+	case 'i':
+	case 'k':
+	 set_camera_speed(&camera,0.0);
+	 break;
+	case 'j':
+	case 'l':
+	 set_camera_side_speed(&camera,0.0);
+	 break;
     }
 
     glutPostRedisplay();
@@ -120,7 +140,7 @@ void idle()
     last_frame_time = current_time;
 
     update_camera(&camera, elapsed_time);
-	update_ship(&scene,elapsed_time);
+	update_ship(&scene.ship,elapsed_time);
 
     glutPostRedisplay();
 }
