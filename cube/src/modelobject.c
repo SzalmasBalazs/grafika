@@ -1,5 +1,6 @@
 #include "modelobject.h"
 #include "callbacks.h"
+#include "scene.h"
 
 #include <GL/glut.h>
 
@@ -19,11 +20,11 @@ void draw_ship(Ship* ship){
 
 void init_ship(Ship* ship){
 	
-	ship->position.x = 1.0;
-	ship->position.y = 1.0;
-	ship->position.z = 1.0;
+	ship->position.x = 0.0;
+	ship->position.y = 0.0;
+	ship->position.z = 0.0;
 	
-	ship->speed.x = 1.0;
+	ship->speed.x = 0.0;
 	ship->speed.y = 0.0;
 	ship->speed.z = 0.0;
 	
@@ -45,9 +46,22 @@ void update_ship(Ship* ship,double time){
 
     ship->position.x += cos(angle) * ship->speed.y * time;
     ship->position.y += sin(angle) * ship->speed.y * time;
+	ship->position.z += sin(angle) * ship->speed.z * time;
     ship->position.x += cos(side_angle) * ship->speed.x * time;
     ship->position.y += sin(side_angle) * ship->speed.x * time;
+	ship->position.z += sin(side_angle) * ship->speed.z * time;
 	
 	
 }
 
+void set_ship_side_speed(Ship* ship,double speed){
+	
+		ship->speed.y += speed;
+
+}
+
+void set_ship_horizontal_speed(Ship* ship,double speed){
+	
+	ship->speed.z += speed;
+	
+}

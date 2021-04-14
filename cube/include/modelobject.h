@@ -19,8 +19,9 @@ void draw_ship(Ship* ship);
 /*setup operations*/
 void init_ship(Ship* ship);
 
+void set_ship_side_speed(Ship* ship,double speed);
 
-
+void set_ship_horizontal_speed(Ship* ship,double speed);
 
 void update_ship(Ship* ship,double time);
 
