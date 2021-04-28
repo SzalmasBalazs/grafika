@@ -11,13 +11,14 @@
 
 void init_scene(Scene* scene)
 {
-	
+	scene->rotation = 0.0;
     load_model(&(scene->ship.player_ship), "obj/Star Fighter Low-Poly.obj");
 	load_model(&(scene->skybox), "obj/compatiblebox.obj");
+	load_model(&(scene->cube), "obj/cube.obj");
 	init_ship(&(scene->ship));
 	scene->texture_id = load_texture("obj/Star Fighter_color.jpg");
 	scene->sky_tex = load_texture("obj/bkg/red/bkg1_bottom4.png");
-	
+	/*/bkg/red/bkg1_bottom4.png*/
 
     glBindTexture(GL_TEXTURE_2D, scene->texture_id);
 
@@ -86,13 +87,11 @@ void draw_scene(const Scene* scene){
     glBindTexture(GL_TEXTURE_2D,scene->texture_id);
     glRotatef(180,0,0,1);
 	draw_ship(&(scene->ship));
- glPopMatrix();
 
-  /*glPushMatrix(); 
-    glRotatef(90,1,0,0);
-	glScalef(scene->model_scale,scene->model_scale,scene->model_scale);
+	glTranslatef(4.3,0,0);
+	glScalef(0.25,0.25,0.25);
     draw_model(&(scene->cube));
- glPopMatrix();*/
+ glPopMatrix();
 
 }
 
@@ -120,11 +119,11 @@ void draw_skybox(Scene* scene){
         glBindTexture(GL_TEXTURE_2D, scene->sky_tex);
         //glTranslatef(1.0, 0.0, 0.0);
         //glTranslatef(0.0, 1.0, 0.0);
-        glScalef(80, 80, 80);
+        glScalef(200, 200, 200);
 	    draw_model(&(scene->skybox));
     glPopMatrix();
-	
-	
-	
-	
+}
+void update_rotation(Scene* scene,double time){
+
+	scene->rotation += 10*time;
 }

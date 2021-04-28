@@ -66,6 +66,7 @@ void motion(int x, int y)
 }
 void keyboard(unsigned char key, int x, int y)
 {
+	float rotation = 0.0;
     switch (key) {
     case 'w':
      scene.ship.speed.x = 20;
@@ -75,7 +76,6 @@ void keyboard(unsigned char key, int x, int y)
         break;
     case 'a':
     scene.ship.speed.z = 20;
-	//scene.ship.rotation.z = 3;
         break;
     case 'd':
      scene.ship.speed.z = -20;
@@ -139,7 +139,7 @@ void idle()
     elapsed_time = (double)(current_time - last_frame_time) / 1000;
     last_frame_time = current_time;
 
-    update_camera(&camera, elapsed_time);
+    update_camera(&camera,&scene.ship, elapsed_time);
 	update_ship(&scene.ship,elapsed_time);
 
     glutPostRedisplay();

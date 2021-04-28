@@ -9,9 +9,9 @@
  */
 typedef struct vec3
 {
-    float x;
-    float y;
-    float z;
+   double x;
+   double y;
+   double z;
 } vec3;
 
 /**

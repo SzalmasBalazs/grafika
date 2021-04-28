@@ -25,4 +25,5 @@ void set_ship_horizontal_speed(Ship* ship,double speed);
 
 void update_ship(Ship* ship,double time);
 
+
 #endif /*MODELOBJECT_H */

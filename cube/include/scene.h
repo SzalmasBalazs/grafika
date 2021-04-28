@@ -19,8 +19,12 @@ typedef struct Scene
 	GLuint texture_id3;
 	GLuint texture_id4;
 	GLuint sky_tex;
+	
+	float rotation;
+	
 } Scene;
 
+Camera camera;
 /**
  * Initialize the scene by loading models.
  */
