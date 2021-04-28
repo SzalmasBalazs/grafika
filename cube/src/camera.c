@@ -6,7 +6,7 @@
 
 void init_camera(Camera* camera)
 {
-    camera->position.x = (ship.position.x - 1.3);
+    camera->position.x = (ship.position.x - 2.3);
     camera->position.y = (ship.position.y);
     camera->position.z = (ship.position.z + 0.4);
     camera->rotation.x = 0.0;
@@ -19,18 +19,18 @@ void init_camera(Camera* camera)
     is_preview_visible = FALSE;
 }
 
-void update_camera(Camera* camera, double time)
+void update_camera(Camera* camera,Ship* ship, double time)
 {
     double angle;
     double side_angle;
 
     angle = degree_to_radian(camera->rotation.z);
     side_angle = degree_to_radian(camera->rotation.z + 90.0);
-
-    camera->position.x += cos(angle) * camera->speed.y * time;
-    camera->position.y += sin(angle) * camera->speed.y * time;
-    camera->position.x += cos(side_angle) * camera->speed.x * time;
-    camera->position.y += sin(side_angle) * camera->speed.x * time;
+    
+	camera->position.x += cos(angle)* -(ship->speed.y/20) *time;
+    camera->position.z += cos(angle) * (ship->speed.x/20) * time;
+    camera->position.y += sin(side_angle) * (ship->speed.z/20) * time;
+	
 	
 }
 
