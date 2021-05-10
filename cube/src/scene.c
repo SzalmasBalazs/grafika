@@ -2,22 +2,34 @@
 #include "modelobject.h"
 #include "utils.h"
 
-
 #include <GL/glut.h>
 
 #include <obj/load.h>
 #include <obj/draw.h>
 #include <obj/model.h>
 
+#define MAX_ASTEROID_ON_SCREEN 50
+
+static Asteroid* asteroids[MAX_ASTEROID_ON_SCREEN];
+
 void init_scene(Scene* scene)
 {
-	scene->rotation = 0.0;
+	int i = 0;
     load_model(&(scene->ship.player_ship), "obj/Star Fighter Low-Poly.obj");
 	load_model(&(scene->skybox), "obj/compatiblebox.obj");
-	load_model(&(scene->cube), "obj/cube.obj");
+	load_model(&(scene->cube), "obj/rock_by_dommk.obj");
+
 	init_ship(&(scene->ship));
+	for (i = 0; i < MAX_ASTEROID_ON_SCREEN;i++){
+		
+		init_asteroid(&(scene->asteroid[i]),i*10);
+		load_model(&(scene->asteroid[i].asteroid_model),"obj/rock_by_dommk.obj");
+	}
+	
 	scene->texture_id = load_texture("obj/Star Fighter_color.jpg");
+	scene->texture_id2 = load_texture("obj/rock_Height.png");
 	scene->sky_tex = load_texture("obj/bkg/red/bkg1_bottom4.png");
+	
 	/*/bkg/red/bkg1_bottom4.png*/
 
     glBindTexture(GL_TEXTURE_2D, scene->texture_id);
@@ -27,8 +39,8 @@ void init_scene(Scene* scene)
     scene->material.ambient.blue = 1.0;
 
     scene->material.diffuse.red = 0.0;
-    scene->material.diffuse.green = 0.0;
-    scene->material.diffuse.blue = 0.0;
+    scene->material.diffuse.green = 1.0;
+    scene->material.diffuse.blue = 1.0;
 
     scene->material.specular.red = 0.0;
     scene->material.specular.green = 0.0;
@@ -52,6 +64,7 @@ void set_lighting()
 
 void set_material(const Material* material)
 {
+	
     float ambient_material_color[] = {
         material->ambient.red,
         material->ambient.green,
@@ -75,10 +88,13 @@ void set_material(const Material* material)
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular_material_color);
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &(material->shininess));
+	
 }
 
 void draw_scene(const Scene* scene){
 
+	int i = 0;
+	
     set_material(&(scene->material));
     set_lighting();
     draw_origin();
@@ -86,11 +102,15 @@ void draw_scene(const Scene* scene){
  glPushMatrix(); 
     glBindTexture(GL_TEXTURE_2D,scene->texture_id);
     glRotatef(180,0,0,1);
+	glRotatef((scene->ship.rotation.z),0,0,1 );
 	draw_ship(&(scene->ship));
 
-	glTranslatef(4.3,0,0);
-	glScalef(0.25,0.25,0.25);
-    draw_model(&(scene->cube));
+		/*for (i = 0;i<MAX_ASTEROID_ON_SCREEN;i++){
+		//printf("assign array");
+		asteroids[i] = &(scene->asteroid[i]);
+		glBindTexture(GL_TEXTURE_2D, scene->texture_id2);	
+	}*/
+	draw_asteroid_array(&(scene->asteroid));
  glPopMatrix();
 
 }
@@ -119,11 +139,8 @@ void draw_skybox(Scene* scene){
         glBindTexture(GL_TEXTURE_2D, scene->sky_tex);
         //glTranslatef(1.0, 0.0, 0.0);
         //glTranslatef(0.0, 1.0, 0.0);
-        glScalef(200, 200, 200);
+        glScalef(2000, 2000, 2000);
 	    draw_model(&(scene->skybox));
     glPopMatrix();
-}
-void update_rotation(Scene* scene,double time){
-
-	scene->rotation += 10*time;
+	
 }

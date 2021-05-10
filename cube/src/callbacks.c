@@ -4,26 +4,37 @@
 #define VIEWPORT_RATIO (16.0 / 9.0)
 #define VIEWPORT_ASPECT 60.0
 
+#include <obj/load.h>
+#include <obj/draw.h>
+#include <obj/model.h>
+
+
+
 struct {
     int x;
     int y;
 } mouse_position;
 
+
+
 void display()
 {
+	int i = 0;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
 
     glPushMatrix();
     set_view(&camera);
     draw_scene(&scene);
-    glPopMatrix();
 
+ 
     if (is_preview_visible) {
         show_texture_preview();
     }
-
-    glutSwapBuffers();
+	
+	
+	glPopMatrix();
+		glutSwapBuffers();
 }
 
 void reshape(GLsizei width, GLsizei height)
@@ -66,19 +77,32 @@ void motion(int x, int y)
 }
 void keyboard(unsigned char key, int x, int y)
 {
-	float rotation = 0.0;
+
+	float speed = 20.0;
     switch (key) {
     case 'w':
-     scene.ship.speed.x = 20;
+     set_ship_speed(&scene.ship,-speed);
         break;
     case 's':
-     scene.ship.speed.x = -20;
+      set_ship_speed(&scene.ship,speed);
         break;
     case 'a':
-    scene.ship.speed.z = 20;
+	set_ship_side_speed(&scene.ship,speed);
         break;
     case 'd':
-     scene.ship.speed.z = -20;
+     set_ship_side_speed(&scene.ship,-speed);
+        break;
+	case 'r':
+     set_ship_vertical_speed(&scene.ship,speed);
+        break;
+	case 'f':
+     set_ship_vertical_speed(&scene.ship,-speed);
+        break;
+	case 'q':
+     set_ship_rotation_speed(&scene.ship,speed);
+        break;
+	case 'e':
+     set_ship_rotation_speed(&scene.ship,-speed);
         break;
     case 't':
         if (is_preview_visible) {
@@ -110,11 +134,19 @@ void keyboard_up(unsigned char key, int x, int y)
     switch (key) {
     case 'w':
     case 's':
-       scene.ship.speed.x = 0.0;
+       set_ship_speed(&scene.ship,0.0);
         break;
     case 'a':
     case 'd':
-          scene.ship.speed.z = 0.0;
+       set_ship_side_speed(&scene.ship,0.0);
+        break;
+	case 'r':
+	case 'f':
+     set_ship_vertical_speed(&scene.ship,0.0);
+        break;
+	case 'q':
+	case 'e':
+     set_ship_rotation_speed(&scene.ship,0.0);
         break;
 	case 'i':
 	case 'k':
@@ -141,6 +173,6 @@ void idle()
 
     update_camera(&camera,&scene.ship, elapsed_time);
 	update_ship(&scene.ship,elapsed_time);
-
     glutPostRedisplay();
 }
+ 
