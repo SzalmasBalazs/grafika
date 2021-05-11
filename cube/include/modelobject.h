@@ -26,7 +26,7 @@ void init_ship(Ship* ship);
 void set_ship_side_speed(Ship* ship,double speed);
 
 /*function responsible for moving the ship on its z axis*/
-void set_ship_horizontal_speed(Ship* ship,double speed);
+void set_ship_vertical_speed(Ship* ship,double speed);
 
 void update_ship(Ship* ship,double time);
 

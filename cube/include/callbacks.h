@@ -5,8 +5,6 @@
 #include "scene.h"
 #include "modelobject.h"
 
-
-
 #include <GL/glut.h>
 
 /**
