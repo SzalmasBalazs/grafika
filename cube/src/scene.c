@@ -1,6 +1,7 @@
 #include "scene.h"
 #include "modelobject.h"
 #include "utils.h"
+#include "pcg_basic.h"
 
 #include <GL/glut.h>
 
@@ -8,21 +9,31 @@
 #include <obj/draw.h>
 #include <obj/model.h>
 
-#define MAX_ASTEROID_ON_SCREEN 50
+#define MAX_ASTEROID_ON_SCREEN 70
+pcg32_random_t rng;
 
 static Asteroid* asteroids[MAX_ASTEROID_ON_SCREEN];
 
 void init_scene(Scene* scene)
 {
+	scene->light_strength = 1.0;
+	pcg32_srandom_r(&rng, time(NULL) ^ (intptr_t)&printf, (intptr_t)&(scene->asteroid));
 	int i = 0;
+	int x,y,z;
+	
     load_model(&(scene->ship.player_ship), "obj/Star Fighter Low-Poly.obj");
 	load_model(&(scene->skybox), "obj/compatiblebox.obj");
 	load_model(&(scene->cube), "obj/rock_by_dommk.obj");
 
 	init_ship(&(scene->ship));
+	
 	for (i = 0; i < MAX_ASTEROID_ON_SCREEN;i++){
 		
-		init_asteroid(&(scene->asteroid[i]),i*10);
+		x = -pcg32_boundedrand_r(&rng, 1500) + 40;
+		y = -pcg32_boundedrand_r(&rng, 1500) + 40;
+		z = -pcg32_boundedrand_r(&rng, 1500) + 40;
+		
+		init_asteroid(&(scene->asteroid[i]),x,y,z);
 		load_model(&(scene->asteroid[i].asteroid_model),"obj/rock_by_dommk.obj");
 	}
 	
@@ -36,32 +47,45 @@ void init_scene(Scene* scene)
 
     scene->material.ambient.red = 1.0;
     scene->material.ambient.green = 1.0;
-    scene->material.ambient.blue = 1.0;
+    scene->material.ambient.blue = 0.0;
 
-    scene->material.diffuse.red = 0.0;
+    scene->material.diffuse.red = 1.0;
     scene->material.diffuse.green = 1.0;
-    scene->material.diffuse.blue = 1.0;
+    scene->material.diffuse.blue = 0.0;
 
-    scene->material.specular.red = 0.0;
-    scene->material.specular.green = 0.0;
+    scene->material.specular.red = 1.0;
+    scene->material.specular.green = 1.0;
     scene->material.specular.blue = 0.0;
 
     scene->material.shininess = 1.0;
 }
 
-void set_lighting()
+void set_lighting(double light_strength)
 {
-    float ambient_light[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    float diffuse_light[] = { 1.0f, 1.0f, 1.0, 1.0f };
-    float specular_light[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    float position[] = { 0.0f, 0.0f, 10.0f, 0.0f };
+	int i;
+    float ambient_light[] = { 0.5f,  0.5f,  0.5f, 1.0f };
+    float diffuse_light[] = {  0.5f,  0.5f,  0.5f, 1.0f };
+    float specular_light[] = { 5.0f,  5.0f, 5.0f,  5.0f };
+    float position[] = { 40.0f, 40.0f, 40.0f, 40.0f };
+	
+	
+	  for(i = 0; i < 3; i++){
+       ambient_light[i]*=light_strength;
+       diffuse_light[i]*=light_strength;
+       specular_light[i]*=light_strength;
+    }
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_light);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_light);
     glLightfv(GL_LIGHT0, GL_SPECULAR, specular_light);
     glLightfv(GL_LIGHT0, GL_POSITION, position);
 }
+void set_light_strength(Scene* scene,double light_val){
+	
+	scene->light_strength +=light_val;
+	printf("%2.lf",scene->light_strength);
 
+}
 void set_material(const Material* material)
 {
 	
@@ -96,22 +120,23 @@ void draw_scene(const Scene* scene){
 	int i = 0;
 	
     set_material(&(scene->material));
-    set_lighting();
+    
+	set_lighting(scene->light_strength);
+	
     draw_origin();
 	draw_skybox(scene);
- glPushMatrix(); 
-    glBindTexture(GL_TEXTURE_2D,scene->texture_id);
-    glRotatef(180,0,0,1);
-	glRotatef((scene->ship.rotation.z),0,0,1 );
-	draw_ship(&(scene->ship));
+	
+	glPushMatrix(); 
+		glBindTexture(GL_TEXTURE_2D,scene->texture_id);
+		glRotatef(0,0,0,1);
+		glRotatef((scene->ship.rotation.z),0,0,1 );
+		draw_ship(&(scene->ship));
+	glPopMatrix();
 
-		/*for (i = 0;i<MAX_ASTEROID_ON_SCREEN;i++){
-		//printf("assign array");
-		asteroids[i] = &(scene->asteroid[i]);
-		glBindTexture(GL_TEXTURE_2D, scene->texture_id2);	
-	}*/
-	draw_asteroid_array(&(scene->asteroid));
- glPopMatrix();
+	glPushMatrix();
+		glBindTexture(GL_TEXTURE_2D, scene->texture_id2);
+		draw_asteroid_array(&(scene->asteroid));
+	glPopMatrix();
 
 }
 

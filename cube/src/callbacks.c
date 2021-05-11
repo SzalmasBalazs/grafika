@@ -8,14 +8,12 @@
 #include <obj/draw.h>
 #include <obj/model.h>
 
-
+#define MAX_ASTEROID_ON_SCREEN 70
 
 struct {
     int x;
     int y;
 } mouse_position;
-
-
 
 void display()
 {
@@ -27,11 +25,9 @@ void display()
     set_view(&camera);
     draw_scene(&scene);
 
- 
     if (is_preview_visible) {
         show_texture_preview();
     }
-	
 	
 	glPopMatrix();
 		glutSwapBuffers();
@@ -70,7 +66,7 @@ void mouse(int button, int state, int x, int y)
 
 void motion(int x, int y)
 {
-    rotate_camera(&camera, mouse_position.x - x, mouse_position.y - y);
+	rotate_camera(&camera, mouse_position.x - x, mouse_position.y - y);
     mouse_position.x = x;
     mouse_position.y = y;
     glutPostRedisplay();
@@ -79,6 +75,7 @@ void keyboard(unsigned char key, int x, int y)
 {
 
 	float speed = 20.0;
+	float cam_speed = 5.0;
     switch (key) {
     case 'w':
      set_ship_speed(&scene.ship,-speed);
@@ -103,6 +100,18 @@ void keyboard(unsigned char key, int x, int y)
         break;
 	case 'e':
      set_ship_rotation_speed(&scene.ship,-speed);
+	 break;
+	 case 'i':
+     set_camera_speed(&camera,-cam_speed);
+        break;
+    case 'k':
+      set_camera_speed(&camera,cam_speed);
+        break;
+    case 'j':
+	set_camera_side_speed(&camera,cam_speed);
+        break;
+    case 'l':
+     set_camera_side_speed(&camera,-cam_speed); 
         break;
     case 't':
         if (is_preview_visible) {
@@ -112,17 +121,11 @@ void keyboard(unsigned char key, int x, int y)
             is_preview_visible = TRUE;
         }
         break;
-	case 'i':
-	 set_camera_speed(&camera,1);
-	    break;
-	case 'k':
-	  set_camera_speed(&camera,-1);
-	    break;
-	case 'j':
-	  set_camera_side_speed(&camera,1);
-        break;
-	case 'l':
-	set_camera_side_speed(&camera,-1);
+	 case 'x':
+	 set_light_strength(&scene,0.5);
+	 break;
+	  case 'y':
+	  set_light_strength(&scene,-0.5);
 	 break;
     }
     glutPostRedisplay();
@@ -148,14 +151,14 @@ void keyboard_up(unsigned char key, int x, int y)
 	case 'e':
      set_ship_rotation_speed(&scene.ship,0.0);
         break;
+	
 	case 'i':
-	case 'k':
-	 set_camera_speed(&camera,0.0);
-	 break;
-	case 'j':
-	case 'l':
-	 set_camera_side_speed(&camera,0.0);
-	 break;
+    case 'k':
+       set_camera_speed(&camera,0.0);
+        break;
+    case 'j':
+    case 'l':
+       set_camera_side_speed(&camera,0.0);
     }
 
     glutPostRedisplay();
@@ -171,8 +174,9 @@ void idle()
     elapsed_time = (double)(current_time - last_frame_time) / 1000;
     last_frame_time = current_time;
 
-    update_camera(&camera,&scene.ship, elapsed_time);
+    update_camera(&camera, elapsed_time);
 	update_ship(&scene.ship,elapsed_time);
+	update_asteroid(&scene.asteroid,elapsed_time);
     glutPostRedisplay();
 }
  
