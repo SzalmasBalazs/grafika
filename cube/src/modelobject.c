@@ -9,6 +9,7 @@
 
 void draw_ship(Ship* ship){
 	
+	
 	glPushMatrix(); 
 		glRotatef(90,1,0,0);
 		glScalef(ship->model_scale,ship->model_scale,ship->model_scale);
@@ -39,6 +40,19 @@ void init_ship(Ship* ship){
 	
 	ship->model_scale = 0.050;
 	
+	ship->material.ambient.red = 1.0;
+    ship->material.ambient.green = 1.0;
+    ship->material.ambient.blue = 0.0;
+
+    ship->material.diffuse.red = 1.0;
+    ship->material.diffuse.green = 1.0;
+    ship->material.diffuse.blue = 0.0;
+
+    ship->material.specular.red = 1.0;
+    ship->material.specular.green = 1.0;
+    ship->material.specular.blue = 0.0;
+
+    ship->material.shininess = 1.0;
 
 	}
 

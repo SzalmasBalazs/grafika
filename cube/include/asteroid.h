@@ -15,11 +15,15 @@ typedef struct Asteroid{
 		float rot_speed;
 }Asteroid;
 
-
+/* Draws the asteroids onto the scene*/
 void draw_asteroid(Asteroid* asteroid);
 
+/*Gives the randomly generated coordinates and the rotation value
+ to every asteroid in the vector */
 void init_asteroid(Asteroid* asteroid,double x,double y, double z);
 
+/*A function that calls draw_asteroid onto individual members of
+  the asteroid vector*/
 void draw_asteroid_array(Asteroid* asteroid);
 
 #endif /*ASTEROID_H */

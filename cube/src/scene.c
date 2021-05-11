@@ -9,9 +9,11 @@
 #include <obj/draw.h>
 #include <obj/model.h>
 
+/*Neccesary global variables for the random number generator and
+  for the vector containing the asteroids*/
+  
 #define MAX_ASTEROID_ON_SCREEN 70
 pcg32_random_t rng;
-
 static Asteroid* asteroids[MAX_ASTEROID_ON_SCREEN];
 
 void init_scene(Scene* scene)
@@ -28,11 +30,11 @@ void init_scene(Scene* scene)
 	init_ship(&(scene->ship));
 	
 	for (i = 0; i < MAX_ASTEROID_ON_SCREEN;i++){
-		
+		/*Have to do a partial init. here. Couldn't get it to work otherwise*/
 		x = -pcg32_boundedrand_r(&rng, 1500) + 40;
 		y = -pcg32_boundedrand_r(&rng, 1500) + 40;
 		z = -pcg32_boundedrand_r(&rng, 1500) + 40;
-		
+		/*actual init call for the asteroids*/
 		init_asteroid(&(scene->asteroid[i]),x,y,z);
 		load_model(&(scene->asteroid[i].asteroid_model),"obj/rock_by_dommk.obj");
 	}
@@ -40,22 +42,20 @@ void init_scene(Scene* scene)
 	scene->texture_id = load_texture("obj/Star Fighter_color.jpg");
 	scene->texture_id2 = load_texture("obj/rock_Height.png");
 	scene->sky_tex = load_texture("obj/bkg/red/bkg1_bottom4.png");
-	
-	/*/bkg/red/bkg1_bottom4.png*/
 
     glBindTexture(GL_TEXTURE_2D, scene->texture_id);
 
-    scene->material.ambient.red = 1.0;
+    scene->material.ambient.red = 2.0;
     scene->material.ambient.green = 1.0;
-    scene->material.ambient.blue = 0.0;
+    scene->material.ambient.blue = 1.0;
 
-    scene->material.diffuse.red = 1.0;
+    scene->material.diffuse.red = 2.0;
     scene->material.diffuse.green = 1.0;
-    scene->material.diffuse.blue = 0.0;
+    scene->material.diffuse.blue = 1.0;
 
-    scene->material.specular.red = 1.0;
+    scene->material.specular.red = 2.0;
     scene->material.specular.green = 1.0;
-    scene->material.specular.blue = 0.0;
+    scene->material.specular.blue = 1.0;
 
     scene->material.shininess = 1.0;
 }
@@ -65,7 +65,7 @@ void set_lighting(double light_strength)
 	int i;
     float ambient_light[] = { 0.5f,  0.5f,  0.5f, 1.0f };
     float diffuse_light[] = {  0.5f,  0.5f,  0.5f, 1.0f };
-    float specular_light[] = { 5.0f,  5.0f, 5.0f,  5.0f };
+    float specular_light[] = { 1.0f,  1.0f, 1.0f,  1.0f };
     float position[] = { 40.0f, 40.0f, 40.0f, 40.0f };
 	
 	
@@ -117,10 +117,9 @@ void set_material(const Material* material)
 
 void draw_scene(const Scene* scene){
 
-	int i = 0;
+	int i;
 	
     set_material(&(scene->material));
-    
 	set_lighting(scene->light_strength);
 	
     draw_origin();
@@ -162,8 +161,6 @@ void draw_skybox(Scene* scene){
 	
 	   glPushMatrix();
         glBindTexture(GL_TEXTURE_2D, scene->sky_tex);
-        //glTranslatef(1.0, 0.0, 0.0);
-        //glTranslatef(0.0, 1.0, 0.0);
         glScalef(2000, 2000, 2000);
 	    draw_model(&(scene->skybox));
     glPopMatrix();

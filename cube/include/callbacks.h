@@ -17,40 +17,26 @@ Scene scene;
  */
 Camera camera;
 
-/**
- * Call when need to display the graphical content.
- */
+/*Call when need to display the graphical content */
 void display();
 
-/**
- * Call after windows resizing.
- */
+/*Function responsible for resizing the window*/
 void reshape(GLsizei width, GLsizei height);
 
-/**
- * Call after mouse button event.
- */
+/* Call after mouse button event.*/
 void mouse(int button, int state, int x, int y);
 
-/**
- * Call after mouse event.
- */
+/*Call after mouse event.*/
 void motion(int x, int y);
 
-/**
- * Call after keyboard event.
- */
+/*Call after keyboard event.*/
 void keyboard(unsigned char key, int x, int y);
 
-/**
- * Call after keyboard release event.
- */
+/* Call after keyboard release event.*/
 
 void keyboard_up(unsigned char key, int x, int y);
 
-/**
- * Call when there is no other event.
- */
+/* Call when there is no other event.*/
 void idle();
 
 #endif /* CALLBACKS_H */

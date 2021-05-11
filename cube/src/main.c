@@ -5,8 +5,8 @@
 
 #include <stdio.h>
 
-/**
- * Set the callbacks for GLUT.
+/*
+ Set the callbacks for GLUT.
  */
 void set_callbacks()
 {
@@ -19,8 +19,8 @@ void set_callbacks()
     glutIdleFunc(idle);
 }
 
-/**
- * Main function
+/*
+ Main function
  */
 int main(int argc, char* argv[])
 {
@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 
     glutInit(&argc, argv);
 
-    glutInitWindowSize(1920, 1080);     
+    glutInitWindowSize(1440, 1080);     
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 
     window = glutCreateWindow("Scene");

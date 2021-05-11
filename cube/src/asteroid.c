@@ -1,18 +1,13 @@
 #include "callbacks.h"
 #include "scene.h"
 #include "asteroid.h"
-#include "pcg_basic.h"
+
 
 #include <GL/glut.h>
 
 #include <obj/load.h>
 #include <obj/draw.h>
 
-
-#include <time.h>
-#include <math.h>
-#include <time.h>
-#include <stdint.h>
 
 
 
@@ -32,10 +27,13 @@ void init_asteroid(Asteroid* asteroid, double x,double y, double z){
 	asteroid->rot_speed = 0.05;
 	
 	asteroid->model_scale = 0.01;
+	
+	
 }
 
 void draw_asteroid(Asteroid* asteroid){
-
+	
+	
 	glRotatef(asteroid->rotation.z,0,0,1);
 	glPushMatrix();
 	glScalef(asteroid->model_scale,asteroid->model_scale,asteroid->model_scale);
