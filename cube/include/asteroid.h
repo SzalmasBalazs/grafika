@@ -12,12 +12,13 @@ typedef struct Asteroid{
 		float model_scale;
 		vec3 position;
 		vec3 rotation;
+		float rot_speed;
 }Asteroid;
 
 
 void draw_asteroid(Asteroid* asteroid);
 
-void init_asteroid(Asteroid* asteroid, int val);
+void init_asteroid(Asteroid* asteroid,double x,double y, double z);
 
 void draw_asteroid_array(Asteroid* asteroid);
 
