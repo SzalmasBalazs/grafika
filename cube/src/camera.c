@@ -6,7 +6,7 @@
 
 void init_camera(Camera* camera)
 {
-    camera->position.x = (ship.position.x - 2.3);
+    camera->position.x = (ship.position.x + 1);
     camera->position.y = (ship.position.y);
     camera->position.z = (ship.position.z + 0.4);
 	
@@ -21,23 +21,18 @@ void init_camera(Camera* camera)
     is_preview_visible = FALSE;
 }
 
-void update_camera(Camera* camera,Ship* ship, double time)
+void update_camera(Camera* camera, double time)
 {
-    double angle;
+	double angle;
     double side_angle;
-	
-	camera->rotation.z += ship->rot_speed.z * time;
 	
     angle = degree_to_radian(camera->rotation.z);
     side_angle = degree_to_radian(camera->rotation.z + 90.0);
-	
-	camera->position.x += cos(angle)* -(ship->speed.y/20) *time;
-    camera->position.z += cos(angle) * (ship->speed.x/20) * time;
-    camera->position.y += sin(side_angle) * (ship->speed.z/20) * time;
-	camera->position.x += cos(angle)* camera->speed.y*time;
-    camera->position.z += cos(angle) * camera->speed.x * time;
-    camera->position.y += sin(side_angle) * camera->speed.z * time;
-	
+
+	camera->position.x +=cos(angle) * camera->speed.y * time;
+    camera->position.y += sin(side_angle) *- camera->speed.z * time;
+	camera->position.z += sin(angle) * camera->speed.x * time;
+	camera->position.z += sin(side_angle) * camera->speed.x * time;
 }
 
 void set_view(const Camera* camera)
@@ -45,8 +40,9 @@ void set_view(const Camera* camera)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glRotatef(-(camera->rotation.x + 90), 1.0, 0, 0);
+    glRotatef((camera->rotation.x + 90), 1.0, 0, 0);
     glRotatef(-(camera->rotation.z - 90), 0, 0, 1.0);
+	glRotatef(180,1,0,0);
     glTranslatef(-camera->position.x, -camera->position.y, -camera->position.z);
 }
 
@@ -79,7 +75,7 @@ void set_camera_speed(Camera* camera, double speed)
 
 void set_camera_side_speed(Camera* camera, double speed)
 {
-    camera->speed.x = speed;
+    camera->speed.z = speed;
 }
 
 void show_texture_preview()
