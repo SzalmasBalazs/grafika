@@ -18,7 +18,7 @@ void init_camera(Camera* camera)
     camera->speed.y = 0.0;
     camera->speed.z = 0.0;
 
-    is_preview_visible = FALSE;
+    is_help_visible = FALSE;
 }
 
 void update_camera(Camera* camera, double time)
@@ -78,7 +78,7 @@ void set_camera_side_speed(Camera* camera, double speed)
     camera->speed.z = speed;
 }
 
-void show_texture_preview()
+void show_help()
 {
     glDisable(GL_LIGHTING);
     glDisable(GL_DEPTH_TEST);
@@ -88,20 +88,21 @@ void show_texture_preview()
     glLoadIdentity();
 
     glColor3f(1, 1, 1);
-
+    glBindTexture(GL_TEXTURE_2D, load_texture("obj/guide.png"));
     glBegin(GL_QUADS);
     glTexCoord2f(0, 0);
-    glVertex3f(-1, 1, -3);
+    glVertex3f(-1, 1, -1);
     glTexCoord2f(1, 0);
-    glVertex3f(1, 1, -3);
+    glVertex3f(1, 1, -1);
     glTexCoord2f(1, 1);
-    glVertex3f(1, -1, -3);
+    glVertex3f(1, -1, -1);
     glTexCoord2f(0, 1);
-    glVertex3f(-1, -1, -3);
+    glVertex3f(-1, -1, -1);
     glEnd();
 
     glDisable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
 }
+
 

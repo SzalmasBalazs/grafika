@@ -25,8 +25,8 @@ void display()
     set_view(&camera);
     draw_scene(&scene);
 
-    if (is_preview_visible) {
-        show_texture_preview();
+    if (is_help_visible) {
+        show_help();
     }
 	
 	glPopMatrix();
@@ -76,6 +76,8 @@ void keyboard(unsigned char key, int x, int y)
 
 	float speed = 20.0;
 	float cam_speed = 5.0;
+	
+	/*ship control keybinds*/
     switch (key) {
     case 'w':
      set_ship_speed(&scene.ship,-speed);
@@ -101,6 +103,9 @@ void keyboard(unsigned char key, int x, int y)
 	case 'e':
      set_ship_rotation_speed(&scene.ship,-speed);
 	 break;
+	 
+	 
+	 /*Camera control keybinds*/
 	 case 'i':
      set_camera_speed(&camera,-cam_speed);
         break;
@@ -113,25 +118,27 @@ void keyboard(unsigned char key, int x, int y)
     case 'l':
      set_camera_side_speed(&camera,-cam_speed); 
         break;
+		
+	/*System command keybinds*/
     case 't':
-        if (is_preview_visible) {
-            is_preview_visible = FALSE;
+        if (is_help_visible) {
+            is_help_visible = FALSE;
         }
         else {
-            is_preview_visible = TRUE;
+            is_help_visible = TRUE;
         }
         break;
-	 case 'x':
+	 case '+':
 	 set_light_strength(&scene,0.5);
 	 break;
-	  case 'y':
+	  case '-':
 	  set_light_strength(&scene,-0.5);
 	 break;
     }
     glutPostRedisplay();
 	
 }
-
+/*Sets everything back to 0 so nothing floats away*/
 void keyboard_up(unsigned char key, int x, int y)
 {
     switch (key) {

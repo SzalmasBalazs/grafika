@@ -19,39 +19,27 @@ typedef struct Camera
 
 Ship ship;
 
-/**
- * Is the texture preview visible?
- */
-int is_preview_visible;
+/* Is the help panel visible */
+int is_help_visible;
 
-/**
- * Initialize the camera to the start position.
- */
+/* Sets the staring position/rotation/speed of the camera */
 void init_camera(Camera* camera);
 
-/**
- * Update the position of the camera.
- */
+/* Update the position of the camera.*/
 void update_camera(Camera* camera, double time);
 
-/**
- * Apply the camera settings to the view transformation.
+/*
+View transformations.
  */
 void set_view(const Camera* camera);
 
-/**
- * Set the horizontal and vertical rotation of the view angle.
- */
+/* Set the horizontal and vertical rotation of the view angle.*/
 void rotate_camera(Camera* camera, double horizontal, double vertical);
 
-/**
- * Set the speed of forward and backward motion.
- */
+/* Set the speed of forward and backward motion.*/
 void set_camera_speed(Camera* camera, double speed);
 
-/**
- * Set the speed of left and right side steps.
- */
+/* Set the speed of left and right side steps.*/
 void set_camera_side_speed(Camera* camera, double speed);
 
 #endif /* CAMERA_H */
