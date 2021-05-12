@@ -18,7 +18,7 @@ Q - balra forgás
 E - Jobbra forgás
 
 Kamera: 
-
+Az egér mozgatásával lehetséges körbenézni!
 I - előre mozgás
 K - hátra mozgás
 J - balra mozgás
