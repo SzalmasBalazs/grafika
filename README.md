@@ -1,8 +1,31 @@
 # grafika
 Repository for computer graphics class.
 
-Plans for the assignment: 
+Ürrepülés szimuláció mozgó aszteroida mezőben.
 
-Star Fox 64-esque(changed from the idea of making a Space Invaders-like game) game, where you fly a spaceship 
-across a map and fight an assortment of enemy spaceships.
-I will use as basis the cube sample we practiced on during class.
+
+Irányítások:
+
+W - előre mozgás
+S - hátra mozgás
+A - balra mozgás
+D - jobbra mozgás
+
+R - emelkedés
+F - süllyedés
+
+Q - balra forgás
+E - Jobbra forgás
+
+Kamera: 
+
+I - előre mozgás
+K - hátra mozgás
+J - balra mozgás
+L - jobbra mozgás
+
+
++ - fényerő növelés
+- - fényerő csökkentés
+
+T - help menü megnyitás/bezárás
